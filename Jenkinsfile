@@ -26,12 +26,6 @@ pipeline {
         }
         
         stage('Build Docker Image') {
-            agent {
-                docker {
-                    image 'docker:dind'
-                    args '--privileged'
-                }
-            }
             steps {
                 sh '''
                     docker version
