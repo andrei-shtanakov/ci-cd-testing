@@ -1,11 +1,13 @@
 pipeline {
     agent {
         docker {
-            image 'golang:1.23'
+            image 'golang:1.23' 
+            args '-v ${HOME}/.cache:/go/cache'  // Монтируем кэш-директорию
         }
     }
     
     environment {
+        GOCACHE = '/go/cache'  // Указываем путь к кэшу
         GO111MODULE = 'on'
         CGO_ENABLED = '0'
     }
@@ -36,7 +38,6 @@ pipeline {
             agent any
             steps {
                 echo 'Deploying...'
-                // Здесь может быть деплой в k8s или на сервер
             }
         }
     }
