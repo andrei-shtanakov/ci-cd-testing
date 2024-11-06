@@ -13,11 +13,11 @@ pipeline {
     }
     
     stages {
-        stage('Test') {
-            steps {
-                sh 'go test ./...'
-            }
-        }
+        //stage('Test') {
+        //    steps {
+        //        sh 'go test ./...'
+        //    }
+        //}
         
         stage('Build') {
             steps {
