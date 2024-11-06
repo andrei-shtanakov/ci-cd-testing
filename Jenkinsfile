@@ -28,10 +28,14 @@ pipeline {
         stage('Build Docker Image') {
             agent none 
             steps {
-                sh '''
-                    docker version
-                    docker build -t myapp:${BUILD_NUMBER} .
-                '''
+                script {
+                    node('master') { // Используем хост Jenkins для выполнения
+                        sh '''
+                            docker version
+                            docker build -t myapp:${BUILD_NUMBER} .
+                        '''
+                    }
+                }
             }
         }
     }
