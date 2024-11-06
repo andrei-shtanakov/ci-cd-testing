@@ -1,0 +1,16 @@
+# Binaries
+#app
+*.exe
+
+# IDE
+.idea/
+.vscode/
+
+# Dependencies
+vendor/
+
+# Logs
+*.log
+
+# Config
+configs/*.local.yaml    

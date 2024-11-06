@@ -1,7 +1,6 @@
 package main
 
 import (
-    "log"
     "net/http"
     
     "github.com/andrei-shtanakov/ci-cd-testing/internal/service"
@@ -13,6 +12,8 @@ func main() {
     userService := service.NewUserService()
     
     http.HandleFunc("/users", userService.HandleUsers)
-    log.Info("Starting server on :8080")
-    http.ListenAndServe(":8080", nil)
+    log.Println("Starting server on :8080")  // используем Println вместо Info
+    if err := http.ListenAndServe(":8080", nil); err != nil {
+        log.Printf("Server error: %v", err)
+    }
 }
