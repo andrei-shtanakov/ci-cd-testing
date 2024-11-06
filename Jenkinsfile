@@ -31,7 +31,6 @@ pipeline {
                 script {
                     node { // Используем хост Jenkins для выполнения
                         sh '''
-                            docker version
                             docker build -t myapp:${BUILD_NUMBER} .
                         '''
                     }
