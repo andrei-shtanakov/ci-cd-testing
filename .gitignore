@@ -1,6 +1,7 @@
 # Binaries
 #app
 *.exe
+.DS_Store
 
 # IDE
 .idea/

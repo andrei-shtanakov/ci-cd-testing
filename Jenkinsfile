@@ -10,39 +10,39 @@ pipeline {
         GOCACHE = '/go/cache'
         GO111MODULE = 'on'
         CGO_ENABLED = '0'
+        DOCKER_BUILDKIT = '1'
     }
     
     stages {
+        stage('Test') {
+            steps {
+                sh 'go test -v ./...'
+            }
+        }
+        
         stage('Build') {
             steps {
-                // Показываем текущую директорию и её содержимое для диагностики
-                sh 'pwd && ls -la'
-                
-                // Загружаем зависимости
-                sh 'go mod tidy'
-                
-                // Собираем приложение
                 sh 'go build -v -o app ./cmd/app'
             }
         }
         
-        stage('Test') {
-            steps {
-                sh 'go test ./...'
-            }
-        }
-        
         stage('Build Docker Image') {
-            agent any
             steps {
                 script {
-                    docker.build("myapp:${env.BUILD_ID}")
+                    // Используем встроенный Docker
+                    def customImage = docker.build("myapp:${env.BUILD_ID}", ".")
+                    
+                    // Если нужно, можно запушить образ
+                    // customImage.push()
                 }
             }
         }
     }
     
     post {
+        always {
+            cleanWs()
+        }
         success {
             echo 'Pipeline completed successfully!'
         }
