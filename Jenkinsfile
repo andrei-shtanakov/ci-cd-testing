@@ -25,19 +25,19 @@ pipeline {
             }
         }
         
-        stage('Build Docker Image') {
-            agent any  // Переключаемся на хост Jenkins для работы с Docker
-            steps {
-                // Используем credentials для Docker registry если нужно
-                // withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
-                sh 'docker build -t myapp:${BUILD_NUMBER} .'
-                // Если нужно запушить образ
-                // sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
-                // sh 'docker push myapp:${BUILD_NUMBER}'
-                // }
-            }
-        }
-    }
+//        stage('Build Docker Image') {
+//            agent any  // Переключаемся на хост Jenkins для работы с Docker
+//            steps {
+//                // Используем credentials для Docker registry если нужно
+//                // withCredentials([usernamePassword(credentialsId: 'docker-hub', passwordVariable: 'DOCKER_PASSWORD', usernameVariable: 'DOCKER_USERNAME')]) {
+//                sh 'docker build -t myapp:${BUILD_NUMBER} .'
+//                // Если нужно запушить образ
+//                // sh 'docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD'
+//                // sh 'docker push myapp:${BUILD_NUMBER}'
+//                // }
+//            }
+//        }
+//    }
     
     post {
         always {
