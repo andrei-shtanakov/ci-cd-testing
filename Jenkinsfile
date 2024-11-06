@@ -5,7 +5,7 @@ pipeline {
     
     environment {
         PATH = "$PATH:/usr/local/go/bin"
-        GOCACHE = '/go/cache'
+        GOCACHE = "${HOME}/.cache/go-build"
         GO111MODULE = 'on'
         CGO_ENABLED = '0'
     }
