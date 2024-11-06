@@ -29,7 +29,8 @@ pipeline {
             agent none 
             steps {
                 script {
-                    node { // Используем хост Jenkins для выполнения
+                    node('node-1') { // Используем хост Jenkins для выполнения
+                        sh 'echo "Testing shell access"'
                         sh '''
                             docker build -t myapp:${BUILD_NUMBER} .
                         '''
