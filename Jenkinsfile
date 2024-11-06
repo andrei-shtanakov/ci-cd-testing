@@ -1,23 +1,42 @@
 pipeline {
-    agent any
+    agent {
+        docker {
+            image 'golang:1.23'
+            args '-v ${HOME}/.cache:/go/cache'
+        }
+    }
+    
+    environment {
+        GOCACHE = '/go/cache'
+        GO111MODULE = 'on'
+        CGO_ENABLED = '0'
+    }
     
     stages {
-        stage('Go Build') {
-            agent {
-                docker {
-                    image 'golang:1.23'
-                    args '-v ${HOME}/.cache:/go/cache'
-                }
-            }
+        stage('Test') {
             steps {
                 sh 'go test -v ./...'
+            }
+        }
+        
+        stage('Build') {
+            steps {
                 sh 'go build -v -o app ./cmd/app'
             }
         }
         
-        stage('Docker Build') {
+        stage('Build Docker Image') {
+            agent {
+                docker {
+                    image 'docker:dind'
+                    args '--privileged'
+                }
+            }
             steps {
-                sh "docker build -t myapp:${BUILD_NUMBER} ."
+                sh '''
+                    docker version
+                    docker build -t myapp:${BUILD_NUMBER} .
+                '''
             }
         }
     }
@@ -25,6 +44,12 @@ pipeline {
     post {
         always {
             cleanWs()
+        }
+        success {
+            echo 'Pipeline completed successfully!'
+        }
+        failure {
+            echo 'Pipeline failed!'
         }
     }
 }
