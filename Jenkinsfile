@@ -29,7 +29,7 @@ pipeline {
             agent none 
             steps {
                 script {
-                    node('master') { // Используем хост Jenkins для выполнения
+                    node { // Используем хост Jenkins для выполнения
                         sh '''
                             docker version
                             docker build -t myapp:${BUILD_NUMBER} .
