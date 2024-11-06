@@ -1,9 +1,6 @@
 pipeline {
     agent {
-        docker {
-            image 'golang:1.23'
-            args '-v ${HOME}/.cache:/go/cache'
-        }
+        label 'node-1' // Замените 'node-1' на метку вашей ноды
     }
     
     environment {
@@ -26,16 +23,11 @@ pipeline {
         }
         
         stage('Build Docker Image') {
-            agent none 
             steps {
-                script {
-                    node('node-1') { // Используем хост Jenkins для выполнения
-                        sh 'echo "Testing shell access"'
-                        sh '''
-                            docker build -t myapp:${BUILD_NUMBER} .
-                        '''
-                    }
-                }
+                sh 'echo "Testing shell access"'
+                sh '''
+                    docker build -t myapp:${BUILD_NUMBER} .
+                '''
             }
         }
     }
