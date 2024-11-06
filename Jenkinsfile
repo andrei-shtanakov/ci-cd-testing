@@ -26,6 +26,7 @@ pipeline {
         }
         
         stage('Build Docker Image') {
+            agent none 
             steps {
                 sh '''
                     docker version
